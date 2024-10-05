@@ -1,30 +1,28 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import { ref } from 'vue';
+
+const items = ref(Array.from({ length: 10 }, (v, i) => ({
+  id: i + 1,
+  name: `Item ${i + 1}`
+})));
 </script>
 
 <template>
   <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+    <div style="display: flex; justify-content: center;">
+      <ul>
+        <VueDraggable
+          v-model="items"
+          :animation="250"
+          direction="vertical"
+          @end="() => console.log('end')"
+          @start="() => console.log('start')"
+        >
+          <li v-for="item in items" :key="item.id">
+            {{ item.name }}
+          </li>
+        </VueDraggable>
+      </ul>
+    </div>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
-
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
